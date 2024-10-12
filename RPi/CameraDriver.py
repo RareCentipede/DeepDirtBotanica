@@ -10,7 +10,6 @@ class CameraDriver:
         self.picam2.start_and_record_video("./resources/test.mp4", duration=5)
     
 
-
 def main():
     camera_driver = CameraDriver()
     # Specify the directory path
