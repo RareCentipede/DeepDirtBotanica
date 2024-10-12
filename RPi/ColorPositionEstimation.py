@@ -3,8 +3,8 @@ import cv2
 import time
 
 from CameraDriver import CameraDriver
-from picamera.array import PiRGBArray
-from picamera import PiCamera
+from picamera2.array import PiRGBArray
+from picamera2 import PiCamera2
 
 class EstimateColorPostition:
     def __init__(self, camera: CameraDriver):
