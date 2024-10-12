@@ -22,8 +22,9 @@ class EstimateColorPostition:
         cv2.startWindowThread()
         self.picam2.contrast = 100
         self.picam2.configure(self.picam2.create_preview_configuration(main={"format": 'XRGB8888', "size": (640, 480)}))
-        self.picam2.start()
+        # self.picam2.start()
         time.sleep(0.1)
+        self.picam2.start_preview()            
 
         while True:
             self.image = self.picam2.capture_array()
@@ -32,7 +33,6 @@ class EstimateColorPostition:
             self.filter_green()
             self.check_if_green_at_center()
 
-            self.picam2.start_preview()            
 
             # cv2.imwrite(f'./resources/image_{i}.jpg', self.image)
             # cv2.imwrite(f'./resources/mask_{i}.jpg', self.mask)
