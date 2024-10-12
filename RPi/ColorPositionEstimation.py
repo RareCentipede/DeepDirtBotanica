@@ -17,7 +17,6 @@ class EstimateColorPostition:
         rawCapture = self.picam2.PiRGBArray(self.picam2)
         time.sleep(0.1)
         for frame in self.picam2.capture_continuous(rawCapture, format="bgr", use_video_port=True):
-            print("Capturing frames")
             image = frame.array
             cv2.imshow("Frame", image)
             key = cv2.waitKey(1) & 0xFF
@@ -46,5 +45,6 @@ class EstimateColorPostition:
 def main():
     camera_driver = CameraDriver()
     color_position = EstimateColorPostition(camera_driver)
+    color_position.get_video_frame()
     color_position.filter_green()
     color_position.show_image()
