@@ -65,9 +65,6 @@ class EstimateColorPostition:
             print("Both sides are equally green")
 
 def main():
-    ser = serial.Serial('/dev/ttyACM0', 9600)
-    ser.reset_input_buffer()
-
     camera_driver = CameraDriver()
     color_position = EstimateColorPostition(camera_driver)
     color_position.get_video_frame()
