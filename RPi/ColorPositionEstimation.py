@@ -1,17 +1,29 @@
 import numpy as np
 import cv2
+import time
+
+from CameraDriver import CameraDriver
+from picamera.array import PiRGBArray
+from picamera import PiCamera
 
 class EstimateColorPostition:
-    def __init__(self, image_path: str):
-        self.image = cv2.imread(image_path)
-        self.image_hsv = cv2.cvtColor(self.image, cv2.COLOR_BGR2HSV)
+    def __init__(self, camera: CameraDriver):
+        # Define camera object
+        self.picam2 = camera.picam2
 
         #set the lower and upper bounds for the green hue
         self.lower_green = np.array([50,100,50])
         self.upper_green = np.array([70,255,255])
 
+    def get_video_frame(self):
+        rawCapture = PiRGBArray(self.picam2)
+        time.sleep(0.1)
+        self.picam2.capture(rawCapture, format="bgr")
+        self.image = rawCapture.array
+
     def filter_green(self):
         #create a mask for green colour using inRange function
+        self.image_hsv = cv2.cvtColor(self.image, cv2.COLOR_BGR2HSV)
         self.mask = cv2.inRange(self.image_hsv, self.lower_green, self.upper_green)
 
         #perform bitwise and on the original image arrays using the mask
@@ -25,7 +37,7 @@ class EstimateColorPostition:
         cv2.destroyAllWindows()
 
 def main():
-    image_path = 'green.jpg'
-    color_position = EstimateColorPostition(image_path)
+    camera_driver = CameraDriver()
+    color_position = EstimateColorPostition(camera_driver)
     color_position.filter_green()
     color_position.show_image()
