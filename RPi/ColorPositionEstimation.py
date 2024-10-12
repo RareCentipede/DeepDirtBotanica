@@ -13,7 +13,7 @@ class EstimateColorPostition:
         self.picam2.framerate = 32
 
         #set the lower and upper bounds for the green hue
-        self.lower_green = np.array([50,100,50])
+        self.lower_green = np.array([20,50,20])
         self.upper_green = np.array([70,255,255])
 
     def get_video_frame(self):
