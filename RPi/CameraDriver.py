@@ -10,9 +10,9 @@ class CameraDriver:
         self.picam2.start_and_record_video("./resources/test.mp4", duration=5)
     
 
-camera_driver = CameraDriver()
 
-def main:
+def main():
+    camera_driver = CameraDriver()
     # Specify the directory path
     directory = "./resources"
 
@@ -21,13 +21,5 @@ def main:
         os.makedirs(directory)
     camera_driver.take_video()
 
-if __name__ == “__main__”:
+if __name__ == "__main__":
     main()
-
-
-
-     
-
-
-
-
