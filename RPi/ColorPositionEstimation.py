@@ -3,9 +3,10 @@ import cv2
 import time
 
 from CameraDriver import CameraDriver
+from picamera2 import Picamera2
 
 class EstimateColorPostition:
-    def __init__(self, camera: CameraDriver):
+    def __init__(self, camera: Picamera2):
         # Define camera object
         self.picam2 = camera.picam2
 
@@ -45,7 +46,8 @@ class EstimateColorPostition:
 
 def main():
     camera_driver = CameraDriver()
-    color_position = EstimateColorPostition(camera_driver)
+    picam = Picamera2()
+    color_position = EstimateColorPostition(picam)
     color_position.get_video_frame()
     color_position.filter_green()
     color_position.show_image()
