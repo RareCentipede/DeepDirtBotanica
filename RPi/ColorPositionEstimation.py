@@ -59,12 +59,15 @@ class EstimateColorPostition:
 
         green_diff = left_avg_green_value - right_avg_green_value
 
-        if green_diff <= threshold:
-            print("Both sides are equally green")
-        elif green_diff > threshold:
-            print("Left side is greener")
-        elif green_diff < -threshold:
-            print("Right side is greener")
+        if np.mean(self.mask.astype(float)) < 10.0:
+            print("No green detected")
+        else:
+            if green_diff <= threshold:
+                print("Both sides are equally green")
+            elif green_diff > threshold:
+                print("Left side is greener")
+            elif green_diff < -threshold:
+                print("Right side is greener")
 
 def main():
     camera_driver = CameraDriver()
