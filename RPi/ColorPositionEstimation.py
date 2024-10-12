@@ -61,13 +61,13 @@ class EstimateColorPostition:
         else:
             if green_diff <= threshold:
                 print("Both sides are equally green")
-                self.ser.write(b"L")
+                self.ser.write(b"S")
             elif green_diff > threshold:
                 print("Left side is greener")
-                self.ser.write(b"R")
-            elif green_diff < threshold:
+                self.ser.write(b"L")
+            elif green_diff < -threshold:
                 print("Right side is greener")
-                self.ser.write(b"S")
+                self.ser.write(b"R")
 
 def main():
     ser = serial.Serial('/dev/ttyACM0', 9600)
