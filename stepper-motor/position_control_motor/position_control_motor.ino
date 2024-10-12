@@ -28,8 +28,6 @@ void setup() {
   
   // Initialize motor with RPM and microstepping setting
   stepper.begin(RPM, Microsteps);
-
-  // Start with the motor in sleep mode
   Serial.println("Enter direction (l or r):");
 }
 
