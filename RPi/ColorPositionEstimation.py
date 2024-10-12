@@ -37,7 +37,7 @@ class EstimateColorPostition:
 
     def filter_green(self):
         #create a mask for green colour using inRange function
-        self.image_hsv = cv2.cvtColor(self.image, cv2.COLOR_BGR2HSV)
+        self.image_hsv = cv2.cvtColor(self.image, cv2.COLOR_RGB2HSV)
         self.mask = cv2.inRange(self.image_hsv, self.lower_green, self.upper_green)
 
         #perform bitwise and on the original image arrays using the mask
