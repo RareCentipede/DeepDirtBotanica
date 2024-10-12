@@ -3,7 +3,6 @@ import cv2
 import time
 
 from CameraDriver import CameraDriver
-from picamera2 import Picamera2
 
 class EstimateColorPostition:
     def __init__(self, camera: CameraDriver):
@@ -19,19 +18,19 @@ class EstimateColorPostition:
 
     def get_video_frame(self):
         print("Capturing frame")
+        cv2.startWindowThread()
+        self.picam2.configure(self.picam2.create_preview_configuration(main={"format": 'XRGB8888', "size": (640, 480)}))
+        self.picam2.start()
         rawCapture = self.picam2.array.PiRGBArray(self.picam2, size=(640, 480))
         time.sleep(0.1)
-        i = 0
-        for frame in self.picam2.capture_continuous(rawCapture, format="bgr", use_video_port=True):
-            self.image = frame.array
+        while True:
+            self.image = self.picam2.capture_array()
+
+            #filter the green colour
             self.filter_green()
 
-            cv2.imshow("Frame", self.res)
-            rawCapture.truncate(0)
-            i += 1
-            cv2.imwrite("resources/frame" + str(i) + ".jpg", self.res)
-            if i == 10:
-                break
+            cv2.imshow("Camera", self.res)
+            cv2.waitKey(1)
 
     def filter_green(self):
         #create a mask for green colour using inRange function
