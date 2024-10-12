@@ -16,6 +16,14 @@ class EstimateColorPostition:
     def get_video_frame(self):
         rawCapture = self.picam2.PiRGBArray(self.picam2)
         time.sleep(0.1)
+        for frame in self.picam2.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+            image = frame.array
+            cv2.imshow("Frame", image)
+            key = cv2.waitKey(1) & 0xFF
+            rawCapture.truncate(0)
+            if key == ord("q"):
+                break
+
         self.picam2.capture(rawCapture, format="bgr")
         self.image = rawCapture.array
 
