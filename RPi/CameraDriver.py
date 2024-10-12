@@ -4,7 +4,7 @@ import os
 class CameraDriver:
   
     def __init__(self):
-        picam2 = Picamera2()
+        self.picam2 = Picamera2()
 
     def take_video(self):
         self.picam2.start_and_record_video("./resources/test.mp4", duration=5)
