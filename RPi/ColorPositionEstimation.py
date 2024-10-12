@@ -53,3 +53,6 @@ def main():
     picam = Picamera2()
     color_position = EstimateColorPostition(picam)
     color_position.get_video_frame()
+
+if __name__ == "__main__":
+    main()
