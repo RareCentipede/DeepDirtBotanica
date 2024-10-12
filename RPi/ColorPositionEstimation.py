@@ -22,14 +22,18 @@ class EstimateColorPostition:
         self.picam2.configure(self.picam2.create_preview_configuration(main={"format": 'XRGB8888', "size": (640, 480)}))
         self.picam2.start()
         time.sleep(0.1)
+        i = 0
         while True:
             self.image = self.picam2.capture_array()
 
             #filter the green colour
             self.filter_green()
 
-            cv2.imshow("Camera", self.res)
-            cv2.waitKey(1)
+            cv2.imwrite(f'./resources/frame_{i}.jpg', self.image)
+
+            i += 1
+            if i == 10:
+                break
 
     def filter_green(self):
         #create a mask for green colour using inRange function
