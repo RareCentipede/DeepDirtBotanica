@@ -26,8 +26,6 @@ class EstimateColorPostition:
         while True:
             self.image = self.picam2.capture_array()
 
-            print(f"image {i}: {self.image}")
-
             #filter the green colour
             self.filter_green()
 
