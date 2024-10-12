@@ -48,7 +48,7 @@ class EstimateColorPostition:
         #perform bitwise and on the original image arrays using the mask
         self.res = cv2.bitwise_and(self.image, self.image, mask=self.mask)
 
-    def check_if_green_at_center(self):
+    def check_if_green_at_center(self, threshold=20):
         #get the center of the image
         height, width, _ = self.image.shape
         center = (width//2, height//2)
@@ -57,12 +57,14 @@ class EstimateColorPostition:
         left_avg_green_value = np.mean(self.mask[:, :width//2].astype(float))
         right_avg_green_value = np.mean(self.mask[:, width//2:].astype(float))
 
-        if left_avg_green_value > right_avg_green_value:
-            print("Left side is greener")
-        elif left_avg_green_value < right_avg_green_value:
-            print("Right side is greener")
-        else:
+        green_diff = left_avg_green_value - right_avg_green_value
+
+        if green_diff <= threshold:
             print("Both sides are equally green")
+        elif green_diff > threshold:
+            print("Left side is greener")
+        elif green_diff < -threshold:
+            print("Right side is greener")
 
 def main():
     camera_driver = CameraDriver()
