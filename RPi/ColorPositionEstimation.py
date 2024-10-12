@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 import time
+import serial
 
 from CameraDriver import CameraDriver
 
@@ -23,20 +24,17 @@ class EstimateColorPostition:
         self.picam2.configure(self.picam2.create_preview_configuration(main={"format": 'XRGB8888', "size": (640, 480)}))
         self.picam2.start()
         time.sleep(0.1)
-        i = 0
+
         while True:
             self.image = self.picam2.capture_array()
 
             #filter the green colour
             self.filter_green()
+            self.check_if_green_at_center()
 
-            cv2.imwrite(f'./resources/image_{i}.jpg', self.image)
-            cv2.imwrite(f'./resources/mask_{i}.jpg', self.mask)
-            cv2.imwrite(f'./resources/frame_{i}.jpg', self.res)
-
-            i += 1
-            if i == 10:
-                break
+            # cv2.imwrite(f'./resources/image_{i}.jpg', self.image)
+            # cv2.imwrite(f'./resources/mask_{i}.jpg', self.mask)
+            # cv2.imwrite(f'./resources/frame_{i}.jpg', self.res)
 
     def filter_green(self):
         #create a mask for green colour using inRange function
@@ -50,14 +48,26 @@ class EstimateColorPostition:
         #perform bitwise and on the original image arrays using the mask
         self.res = cv2.bitwise_and(self.image, self.image, mask=self.mask)
 
-    def show_image(self):
-        cv2.imshow('image', self.image)
-        cv2.imshow('mask', self.mask)
-        cv2.imshow('res', self.res)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+    def check_if_green_at_center(self):
+        #get the center of the image
+        height, width, _ = self.image.shape
+        center = (width//2, height//2)
+
+        # Left average green value
+        left_avg_green_value = np.mean(self.mask[:, :width//2].astype(float))
+        right_avg_green_value = np.mean(self.mask[:, width//2:].astype(float))
+
+        if left_avg_green_value > right_avg_green_value:
+            print("Left side is greener")
+        elif left_avg_green_value < right_avg_green_value:
+            print("Right side is greener")
+        else:
+            print("Both sides are equally green")
 
 def main():
+    ser = serial.Serial('/dev/ttyACM0', 9600)
+    ser.reset_input_buffer()
+
     camera_driver = CameraDriver()
     color_position = EstimateColorPostition(camera_driver)
     color_position.get_video_frame()
