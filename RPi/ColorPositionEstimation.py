@@ -59,7 +59,7 @@ class EstimateColorPostition:
         if np.mean(self.mask.astype(float)) < 10.0:
             print("No green detected")
         else:
-            if green_diff <= threshold:
+            if green_diff <= threshold and green_diff >= -threshold:
                 print("Both sides are equally green")
                 self.ser.write(b"S")
             elif green_diff > threshold:
