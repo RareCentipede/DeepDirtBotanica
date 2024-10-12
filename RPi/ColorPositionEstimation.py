@@ -50,7 +50,6 @@ class EstimateColorPostition:
 
 def main():
     camera_driver = CameraDriver()
-    picam = Picamera2()
     color_position = EstimateColorPostition(camera_driver)
     color_position.get_video_frame()
 
