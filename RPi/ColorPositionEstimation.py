@@ -24,7 +24,7 @@ class EstimateColorPostition:
         time.sleep(0.1)
         i = 0
         while True:
-            self.image = self.picam2.capture_array()
+            self.image = self.picam2.capture_array()[:3]
 
             print(f"image {i}: {self.image}")
 
