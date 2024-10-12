@@ -24,7 +24,7 @@ class EstimateColorPostition:
         time.sleep(0.1)
         i = 0
         while True:
-            self.image = self.picam2.capture_array()[:3]
+            self.image = self.picam2.capture_array()
 
             print(f"image {i}: {self.image}")
 
@@ -41,6 +41,10 @@ class EstimateColorPostition:
 
     def filter_green(self):
         #create a mask for green colour using inRange function
+        for row in self.image:
+            for pixel in row:
+                pixel = pixel[:3]
+
         self.image_hsv = cv2.cvtColor(self.image, cv2.COLOR_RGB2HSV)
         self.mask = cv2.inRange(self.image_hsv, self.lower_green, self.upper_green)
 
