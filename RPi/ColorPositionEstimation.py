@@ -29,7 +29,7 @@ class EstimateColorPostition:
             #filter the green colour
             self.filter_green()
 
-            cv2.imwrite(f'./resources/frame_{i}.jpg', self.image)
+            cv2.imwrite(f'./resources/frame_{i}.jpg', self.res)
 
             i += 1
             if i == 10:
