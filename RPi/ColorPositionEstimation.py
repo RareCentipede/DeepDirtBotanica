@@ -21,7 +21,6 @@ class EstimateColorPostition:
         cv2.startWindowThread()
         self.picam2.configure(self.picam2.create_preview_configuration(main={"format": 'XRGB8888', "size": (640, 480)}))
         self.picam2.start()
-        rawCapture = self.picam2.array.PiRGBArray(self.picam2, size=(640, 480))
         time.sleep(0.1)
         while True:
             self.image = self.picam2.capture_array()
