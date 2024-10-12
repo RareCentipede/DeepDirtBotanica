@@ -65,7 +65,7 @@ class EstimateColorPostition:
             elif green_diff > threshold:
                 print("Left side is greener")
                 self.ser.write(b"R")
-            elif green_diff < -threshold:
+            elif green_diff < threshold:
                 print("Right side is greener")
                 self.ser.write(b"S")
 
