@@ -3,8 +3,6 @@ import cv2
 import time
 
 from CameraDriver import CameraDriver
-from picamera.array import PiRGBArray
-from picamera2 import PiCamera2
 
 class EstimateColorPostition:
     def __init__(self, camera: CameraDriver):
@@ -16,7 +14,7 @@ class EstimateColorPostition:
         self.upper_green = np.array([70,255,255])
 
     def get_video_frame(self):
-        rawCapture = PiRGBArray(self.picam2)
+        rawCapture = self.picam2.PiRGBArray(self.picam2)
         time.sleep(0.1)
         self.picam2.capture(rawCapture, format="bgr")
         self.image = rawCapture.array
