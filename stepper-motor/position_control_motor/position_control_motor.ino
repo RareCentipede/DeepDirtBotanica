@@ -30,32 +30,24 @@ void setup() {
   stepper.begin(RPM, Microsteps);
 
   // Start with the motor in sleep mode
-  Serial.println("Enter direction (Left or Right):");
+  Serial.println("Enter direction (l or r):");
 }
 
 void loop() {
+  digitalWrite(Sleep, HIGH);
   int steps = 90;
   
-  if (Serial.available() > 0) {
-    // Wake up the motor
-    digitalWrite(Sleep, HIGH);
-    
+  if (Serial.available() > 0) {    
     // Read input from serial monitor
-    String input = Serial.readString();
-    input.trim();  // Remove any leading/trailing whitespace
+    char input = Serial.read();
 
     // Determine direction
-    if (input.equalsIgnoreCase("Left")) {
+    if ((input == 'l') || (input == 'L')) {
       stepper.rotate(-steps);
       
-    } else if (input.equalsIgnoreCase("Right")) {
-      stepper.rotate(steps);
-      
-    } else {
-      Serial.println("Invalid input. Enter 'Left' or 'Right'.");
+    } else if ((input == 'r') || (input == 'R')) {
+      stepper.rotate(steps); 
     }
-
-    // Put motor back to sleep after movement
-    digitalWrite(Sleep, LOW);
   }
+  digitalWrite(Sleep, LOW);
 }
