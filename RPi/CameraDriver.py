@@ -1,4 +1,5 @@
 from picamera2 import Picamera2
+import os
 
 class CameraDriver:
   
@@ -12,6 +13,12 @@ class CameraDriver:
 camera_driver = CameraDriver()
 
 def main:
+    # Specify the directory path
+    directory = "./resources"
+
+    # Create the directory if it doesn't exist
+    if not os.path.exists(directory):
+        os.makedirs(directory)
     camera_driver.take_video()
 
 if __name__ == “__main__”:
