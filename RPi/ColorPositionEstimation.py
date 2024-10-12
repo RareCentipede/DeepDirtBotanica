@@ -8,14 +8,16 @@ from picamera2 import Picamera2
 class EstimateColorPostition:
     def __init__(self, camera: Picamera2):
         # Define camera object
-        self.picam2 = camera.picam2
+        self.picam2 = camera
+        self.picam2.resolution = (640, 480)
+        self.picam2.framerate = 32
 
         #set the lower and upper bounds for the green hue
         self.lower_green = np.array([50,100,50])
         self.upper_green = np.array([70,255,255])
 
     def get_video_frame(self):
-        rawCapture = self.picam2.PiRGBArray(self.picam2)
+        rawCapture = self.picam2.PiRGBArray(self.picam2, size=(640, 480))
         time.sleep(0.1)
         for frame in self.picam2.capture_continuous(rawCapture, format="bgr", use_video_port=True):
             print("Capturing frame")
