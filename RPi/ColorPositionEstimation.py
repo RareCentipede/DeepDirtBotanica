@@ -32,6 +32,8 @@ class EstimateColorPostition:
             self.filter_green()
             self.check_if_green_at_center()
 
+            self.picam2.start_preview()            
+
             # cv2.imwrite(f'./resources/image_{i}.jpg', self.image)
             # cv2.imwrite(f'./resources/mask_{i}.jpg', self.mask)
             # cv2.imwrite(f'./resources/frame_{i}.jpg', self.res)
