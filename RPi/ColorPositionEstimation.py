@@ -8,6 +8,7 @@ from picamera2 import Picamera2
 class EstimateColorPostition:
     def __init__(self, camera: Picamera2):
         # Define camera object
+        print("Initializing camera")
         self.picam2 = camera
         self.picam2.resolution = (640, 480)
         self.picam2.framerate = 32
@@ -17,19 +18,20 @@ class EstimateColorPostition:
         self.upper_green = np.array([70,255,255])
 
     def get_video_frame(self):
+        print("Capturing frame")
         rawCapture = self.picam2.PiRGBArray(self.picam2, size=(640, 480))
         time.sleep(0.1)
+        i = 0
         for frame in self.picam2.capture_continuous(rawCapture, format="bgr", use_video_port=True):
-            print("Capturing frame")
-            image = frame.array
-            cv2.imshow("Frame", image)
-            key = cv2.waitKey(1) & 0xFF
-            rawCapture.truncate(0)
-            if key == ord("q"):
-                break
+            self.image = frame.array
+            self.filter_green()
 
-        self.picam2.capture(rawCapture, format="bgr")
-        self.image = rawCapture.array
+            cv2.imshow("Frame", self.res)
+            rawCapture.truncate(0)
+            i += 1
+            cv2.imwrite("resources/frame" + str(i) + ".jpg", self.res)
+            if i == 10:
+                break
 
     def filter_green(self):
         #create a mask for green colour using inRange function
@@ -51,5 +53,3 @@ def main():
     picam = Picamera2()
     color_position = EstimateColorPostition(picam)
     color_position.get_video_frame()
-    color_position.filter_green()
-    color_position.show_image()
