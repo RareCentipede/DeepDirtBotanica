@@ -19,6 +19,7 @@ class EstimateColorPostition:
     def get_video_frame(self):
         print("Capturing frame")
         cv2.startWindowThread()
+        self.picam2.contrast = 80
         self.picam2.configure(self.picam2.create_preview_configuration(main={"format": 'XRGB8888', "size": (640, 480)}))
         self.picam2.start()
         time.sleep(0.1)
